@@ -76,10 +76,10 @@ if (loginForm) {
             loginAttempts++;
             alert("Invalid username or password.");
 
-            // After 3 failed attempts, redirect to error page
+            // After 3 failed attempts, redirect to register page
             if(loginAttempts >= 3){
                 alert("Too many failed attempts. Redirecting to error page.");
-                window.location.href = "error.html";
+                window.location.href = "register.html";
             }
         }
     });
@@ -252,3 +252,4 @@ function updateCart() {
 
 // ---------------------- INITIALIZE CART ----------------------
 document.addEventListener("DOMContentLoaded", updateCart);
+
