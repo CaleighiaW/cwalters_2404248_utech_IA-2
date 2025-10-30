@@ -78,35 +78,56 @@ if (loginForm) {
 
             // After 3 failed attempts, redirect to register page
             if(loginAttempts >= 3){
-                alert("Too many failed attempts. Redirecting to error page.");
+                alert("Too many failed attempts. Redirecting to register page.");
                 window.location.href = "register.html";
             }
         }
     });
 }
 
-// -------------------- OPTIONAL FUNCTION: Generate Invoice --------------------
-// Function to create invoice for a user based on cart items
-function generateInvoice(username) {
-    const users = JSON.parse(localStorage.getItem("users"));
-    const user = users[username];
+// -------------------- Generate Invoice --------------------
+// --- Populate invoice data ---
+    document.addEventListener("DOMContentLoaded", () => {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const invoiceItems = document.getElementById("invoice-items");
+        const invoiceDate = document.getElementById("invoice-date");
+        const invoiceNumber = document.getElementById("invoice-number");
 
-    if (user) {
-        // Start invoice text
-        user.invoice = `Invoice for ${username}:\nProducts:\n`;
+        // Generate invoice date & number
+        const today = new Date();
+        invoiceDate.textContent = today.toLocaleDateString();
+        invoiceNumber.textContent = "INV-" + Math.floor(Math.random() * 90000 + 10000);
 
-        // Loop through each product in the cart and add to invoice
-        user.cart.forEach((product, index) => {
-            user.invoice += `${index + 1}. ${product.name} - $${product.price}\n`;
+        let subtotal = 0;
+
+        cart.forEach(item => {
+            const subTotalItem = item.price * item.quantity;
+            subtotal += subTotalItem;
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${item.name}</td>
+                <td>$${item.price.toFixed(2)}</td>
+                <td>${item.quantity}</td>
+                <td>$${subTotalItem.toFixed(2)}</td>
+                `;
+            invoiceItems.appendChild(tr);
         });
 
-        // Save updated user data back to localStorage
-        localStorage.setItem("users", JSON.stringify(users));
+        const tax = subtotal * 0.05;
+        const total = subtotal + tax;
 
-        // Display invoice in an alert (can be replaced with better UI later)
-        alert(user.invoice);
-    }
-}
+        document.getElementById("invoice-subtotal").textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+        document.getElementById("invoice-tax").textContent = `Tax (5%): $${tax.toFixed(2)}`;
+        document.getElementById("invoice-total").textContent = `Total: $${total.toFixed(2)}`;
+
+        // Fill billing info if stored
+        const name = localStorage.getItem("checkoutName");
+        const address = localStorage.getItem("checkoutAddress");
+        if (name) document.getElementById("invoice-name").textContent = name;
+        if (address) document.getElementById("invoice-address").textContent = address;
+    });
+
 // ---------------------- CART FUNCTIONALITY ----------------------
 
 // Load cart from localStorage if it exists
@@ -250,6 +271,38 @@ function updateCart() {
   totalEl.textContent = `Total: $${total.toFixed(2)}`;
 }
 
+// ---------------------- CHECKOUT CONFIRMATION ----------------------
+const checkoutForm = document.getElementById("checkout-form");
+
+// If we're on the checkout page
+if (checkoutForm) {
+  checkoutForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Get customer input
+    const name = document.getElementById("name").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const amount = parseFloat(document.getElementById("amount").value);
+
+    // Validate input
+    if (!name || !address || isNaN(amount) || amount <= 0) {
+      alert("Please fill in all fields correctly before confirming.");
+      return;
+    }
+
+    // Save customer info to localStorage (for invoice)
+    localStorage.setItem("checkoutName", name);
+    localStorage.setItem("checkoutAddress", address);
+    localStorage.setItem("checkoutAmount", amount);
+
+    // Store updated cart for the invoice
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Redirect to invoice page
+    alert("Order confirmed! Generating your invoice...");
+    window.location.href = "invoice.html";
+  });
+}
+
 // ---------------------- INITIALIZE CART ----------------------
 document.addEventListener("DOMContentLoaded", updateCart);
-
