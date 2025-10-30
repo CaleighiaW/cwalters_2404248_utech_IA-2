@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Walters Whiskers and Waggs</title>
+    <link rel="stylesheet" href="../Style.css/style.css">
+    <script src="../js/script.js" defer></script>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <img src="../Assets/logo.jpg" alt="Walters Whiskers and Waggs Logo">
+        <nav>
+            <a href="homepage.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html">Cart</a>
+            <a href="about.html">About Us</a>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <img src="../Assets/logo.jpg" alt="Logo">
+            <h1>Invoice</h1>
+            <p>Thank you for shopping with Walters Whiskers and Waggs!</p>
+        </div>
+
+        <div class="invoice-details">
+            <div>
+                <h3>Billing To:</h3>
+                <p id="invoice-name">John Doe</p>
+                <p id="invoice-address">123 Main Street</p>
+            </div>
+            <div style="text-align: right;">
+                <h3>Invoice Info:</h3>
+                <p>Date: <span id="invoice-date"></span></p>
+                <p>Invoice #: <span id="invoice-number"></span></p>
+            </div>
+        </div>
+
+        <table class="invoice-table" id="invoice-table">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Price ($)</th>
+                    <th>Quantity</th>
+                    <th>Subtotal ($)</th>
+                </tr>
+            </thead>
+            <tbody id="invoice-items">
+                <!-- JS will populate this -->
+            </tbody>
+        </table>
+
+        <div class="invoice-summary">
+            <p id="invoice-subtotal">Subtotal: $0.00</p>
+            <p id="invoice-tax">Tax (5%): $0.00</p>
+            <p id="invoice-total"><strong>Total: $0.00</strong></p>
+        </div>
+
+        <div class="invoice-buttons">
+            <button onclick="window.print()">Print Invoice</button>
+            <button onclick="window.location.href='homepage.html'">Return Home</button>
+        </div>
+
+        <div class="invoice-footer">
+            &copy; 2025 Walters Whiskers and Waggs | All Rights Reserved.
+        </div>
+    </div>
+
+</body>
+</html>
