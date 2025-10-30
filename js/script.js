@@ -70,7 +70,7 @@ if (loginForm) {
             alert(`Welcome, ${users[username].name}!`);
             
             // Redirect to products page with username as a query parameter
-            window.location.href = `products.html?username=${username}`;
+            window.location.href = `homepage.html?username=${username}`;
         } else {
             // Failed login attempt
             loginAttempts++;
@@ -306,3 +306,4 @@ if (checkoutForm) {
 
 // ---------------------- INITIALIZE CART ----------------------
 document.addEventListener("DOMContentLoaded", updateCart);
+
