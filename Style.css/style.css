@@ -13,7 +13,7 @@ body {
 
 /* Adds consistent spacing and layout */
 .container {
-  width: 85%;
+  width: 50%;
   margin: 20px auto;
   padding: 20px;
   background-color: #fff;
@@ -413,3 +413,4 @@ footer {
     margin: 5px;
   }
 }
+
