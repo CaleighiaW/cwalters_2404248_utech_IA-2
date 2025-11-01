@@ -172,9 +172,7 @@ function updateQuantity(index, quantity) {
 // Cancel order / clear cart
 function cancelOrder() {
     if (confirm('Are you sure you want to cancel your order?')) {
-        cart = [];
-        localStorage.removeItem('cart');
-        updateCart();
+        window.location.href = "products.html"
     }
 }
 
@@ -260,7 +258,7 @@ function updateCart() {
   });
 
   // ✅ Calculate discount, tax, total
-  const discount = subtotal > 20000 ? subtotal * 0.10 : 0;
+  const discount = subtotal > 50000 ? subtotal * 0.10 : 0;
   const tax = (subtotal - discount) * 0.05;
   const total = subtotal - discount + tax;
 
@@ -306,4 +304,3 @@ if (checkoutForm) {
 
 // ---------------------- INITIALIZE CART ----------------------
 document.addEventListener("DOMContentLoaded", updateCart);
-
