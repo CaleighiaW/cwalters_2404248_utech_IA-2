@@ -85,49 +85,6 @@ if (loginForm) {
     });
 }
 
-// -------------------- Generate Invoice --------------------
-// --- Populate invoice data ---
-    document.addEventListener("DOMContentLoaded", () => {
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const invoiceItems = document.getElementById("invoice-items");
-        const invoiceDate = document.getElementById("invoice-date");
-        const invoiceNumber = document.getElementById("invoice-number");
-
-        // Generate invoice date & number
-        const today = new Date();
-        invoiceDate.textContent = today.toLocaleDateString();
-        invoiceNumber.textContent = "INV-" + Math.floor(Math.random() * 90000 + 10000);
-
-        let subtotal = 0;
-
-        cart.forEach(item => {
-            const subTotalItem = item.price * item.quantity;
-            subtotal += subTotalItem;
-
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td>${item.name}</td>
-                <td>$${item.price.toFixed(2)}</td>
-                <td>${item.quantity}</td>
-                <td>$${subTotalItem.toFixed(2)}</td>
-                `;
-            invoiceItems.appendChild(tr);
-        });
-
-        const tax = subtotal * 0.05;
-        const total = subtotal + tax;
-
-        document.getElementById("invoice-subtotal").textContent = `Subtotal: $${subtotal.toFixed(2)}`;
-        document.getElementById("invoice-tax").textContent = `Tax (5%): $${tax.toFixed(2)}`;
-        document.getElementById("invoice-total").textContent = `Total: $${total.toFixed(2)}`;
-
-        // Fill billing info if stored
-        const name = localStorage.getItem("checkoutName");
-        const address = localStorage.getItem("checkoutAddress");
-        if (name) document.getElementById("invoice-name").textContent = name;
-        if (address) document.getElementById("invoice-address").textContent = address;
-    });
-
 // ---------------------- CART FUNCTIONALITY ----------------------
 
 // Load cart from localStorage if it exists
@@ -301,6 +258,60 @@ if (checkoutForm) {
     window.location.href = "invoice.html";
   });
 }
+
+// -------------------- Generate Invoice --------------------
+// --- Populate invoice data ---
+    document.addEventListener("DOMContentLoaded", () => {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const invoiceItems = document.getElementById("invoice-items");
+        const invoiceDate = document.getElementById("invoice-date");
+        const invoiceNumber = document.getElementById("invoice-number");
+
+        // Generate invoice date & number
+        const today = new Date();
+        invoiceDate.textContent = today.toLocaleDateString();
+        invoiceNumber.textContent = "INV-" + Math.floor(Math.random() * 90000 + 10000);
+
+        let subtotal = 0;
+
+        cart.forEach(item => {
+            const subTotalItem = item.price * item.quantity;
+            subtotal += subTotalItem;
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${item.name}</td>
+                <td>$${item.price.toFixed(2)}</td>
+                <td>${item.quantity}</td>
+                <td>$${subTotalItem.toFixed(2)}</td>
+                `;
+            invoiceItems.appendChild(tr);
+        });
+
+        const tax = subtotal * 0.05;
+        const total = subtotal + tax;
+
+        document.getElementById("invoice-subtotal").textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+        document.getElementById("invoice-tax").textContent = `Tax (5%): $${tax.toFixed(2)}`;
+        document.getElementById("invoice-total").textContent = `Total: $${total.toFixed(2)}`;
+
+        // FIX: Invoice shows EXACT amount entered at checkout
+         const checkoutAmount = parseFloat(localStorage.getItem("checkoutAmount"));
+           if (!isNaN(checkoutAmount)) {
+             document.getElementById("invoice-total").textContent =
+            `Total: $${checkoutAmount.toFixed(2)}`;
+             } else {
+                  document.getElementById("invoice-total").textContent =
+                   `Total: $${total.toFixed(2)}`;
+                 }
+
+        // Fill billing info if stored
+        const name = localStorage.getItem("checkoutName");
+        const address = localStorage.getItem("checkoutAddress");
+        if (name) document.getElementById("invoice-name").textContent = name;
+        if (address) document.getElementById("invoice-address").textContent = address;
+    });
+
 
 // ---------------------- INITIALIZE CART ----------------------
 document.addEventListener("DOMContentLoaded", updateCart);
