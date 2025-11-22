@@ -206,6 +206,34 @@ button:hover {
   max-width: 100%;
 }
 
+/* Hero actions: button + socials lined up */
+.hero-actions {
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  gap: 20px;           
+  flex-wrap: wrap;       
+}
+
+.hero .socials {
+  display: flex;
+  gap: 12px;           
+}
+
+.hero .socials a {
+  font-size: 1.5em;
+  color: #3b4a3d;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.hero .socials a:hover {
+  color: #5f7c6b;
+}
+
+
+
+
 /* ==============================================
    PRODUCT PAGE
    ============================================== */
@@ -252,13 +280,14 @@ button:hover {
 .cart table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 27px;
+  margin-bottom: 20px;
 }
 
 .cart th, .cart td {
   border: 1px solid #ccc;
-  padding: 29px;
-  text-align: center;
+  padding: 12px 15px;
+  text-align: left;
+  word-break: break-word;
 }
 
 .cart-summary {
@@ -288,6 +317,27 @@ button:hover {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+}
+
+/* Set proportional column widths */
+.cart-summary th:nth-child(1),
+.cart-summary td:nth-child(1) { width: 35%; } /* Item Name */
+.cart-summary th:nth-child(2),
+.cart-summary td:nth-child(2) { width: 15%; } /* Price */
+.cart-summary th:nth-child(3),
+.cart-summary td:nth-child(3) { width: 10%; } /* Quantity */
+.cart-summary th:nth-child(4),
+.cart-summary td:nth-child(4) { width: 20%; } /* Subtotal */
+.cart-summary th:nth-child(5),
+.cart-summary td:nth-child(5) { width: 20%; text-align: center; } /* Action */
+
+/* Make table scrollable on small screens */
+@media (max-width: 600px) {
+  .cart-summary table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }
 
 /* ==============================================
@@ -413,5 +463,3 @@ footer {
     margin: 5px;
   }
 }
-
-
